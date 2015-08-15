@@ -33,7 +33,13 @@ The application will be built using the Node and Express libraries, HTML, CSS, J
 We are managing team interactions through:
 
 - A team Github repo, with each team member creating their own clone and branches and pushes.
+	
+	<https://github.com/philuchansky/BPPD>
+	
 - A Trello board divided into the following sections: Backlog, Assigned, Doing, Awaiting Approval, Approved, and Done.
+
+	<https://trello.com/b/5qqxjYd7/team-project-3-wdi-17>
+
 - A team-specific Slack channel.
 
 
