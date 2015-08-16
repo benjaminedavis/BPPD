@@ -20,8 +20,10 @@ As a non-authenticated user, I will be able to:
 As an authenticated user, I will be able to:
 
 - Create a song feed/ queue/ radio station by typing a search string and hitting submit, playing the next song once the current is finished.
+- Create a 'smart' radio station, by utlizing soundcloud songs' tags and keywords to search for subsequent songs in a queue. In other words, the app will have an option to curate an evolving playlist for more discoverable content.
 - Add individual songs to a favorites/ playlist.
 - View all of my favorited songs when I visit my profile page.
+- Revisit and play (on-demand) any song that is saved to my playlist at any time, as well as any song that I search for outside of my playlist.
 - Delete songs from my list of favorites.
 
 
