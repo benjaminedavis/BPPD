@@ -7,8 +7,7 @@ var userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, require: true, unique: true},
   password: { type: String, require: true},
-  playlists: { type: String},
-  songs: { type: String}
+  songs: [{ type: String }]
 });
 
 //create user model out of userSchema (constructor function)
