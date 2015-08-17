@@ -8,6 +8,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); //creating a schema in mongo
 var morgan = require('morgan'); //used to see the requests in console
+var dotenv = require('dotenv').load(); // used to load environment variables for api keys
+var sc = require('node-soundcloud'); // soundcloud api package
 
 var routes = require('./routes/index');
 //Database connection
@@ -21,6 +23,14 @@ var apiRouter = express.Router();
 //=====REGISTER ROUTES
 //Allows to be part of your express app
 app.use('/api', apiRouter);
+//====================
+
+//=====INITIALIZE SOUNDCLOUD API WITH KEYS IN .env FILE
+sc.init({
+  id: process.env.SOUNDCLOUD_CLIENT_ID,
+  secret: process.env.SOUNDCLOUD_CLIENT_SECRET,
+  uri: 'http://0.0.0.0:8080'
+});
 //====================
 
 //use morgan to show requests
@@ -86,6 +96,23 @@ apiRouter.route('/users')
       User.findOneAndRemove({_id: req.params.id}, function(err, user){
         if(err) res.json({message: "Error: Could not delete"})
         res.json({message: "User was deleted"})
+      });
+    });
+
+  //TEST SOUNDCLOUD API REQUESTS:
+  apiRouter.route('/search/:query')
+    .get(function(req, res){
+      sc.get('/tracks',{q: req.params.query}, function(err, results) {
+        if ( err ) {
+          throw err;
+        } else {
+          var songTitles = [];
+          for(var i = 0; i < results.length; i += 1) {
+            songTitles.push(results[i].title);
+          }
+          //res.json(songTitles); //return just song titles from url params search:
+          res.json(results); //return complete result objects
+        }
       });
     });
 
