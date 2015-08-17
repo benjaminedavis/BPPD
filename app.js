@@ -99,6 +99,23 @@ apiRouter.route('/users')
       });
     });
 
+  //TEST SOUNDCLOUD API REQUESTS:
+  apiRouter.route('/search/:query')
+    .get(function(req, res){
+      sc.get('/tracks',{q: req.params.query}, function(err, results) {
+        if ( err ) {
+          throw err;
+        } else {
+          var songTitles = [];
+          for(var i = 0; i < results.length; i += 1) {
+            songTitles.push(results[i].title);
+          }
+          //res.json(songTitles); //return just song titles from url params search:
+          res.json(results); //return complete result objects
+        }
+      });
+    });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
