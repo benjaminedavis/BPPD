@@ -1,4 +1,4 @@
-**cloudlist**
+**cloudcover**
 
 This application is a personal music playlist creation device that utilizes the soundcloud.com api.
 
@@ -74,10 +74,14 @@ https://moqups.com/petershim61@gmail.com/FGvEPRId
 
 Basic wireframes are included.
 
-The first shows the Home page view of a non-authenicated user.
+The first wireframe shows the home page view:
 
-The second shows the Home page view for an authenticated user.
+![](screenshots/bppd_landingpage.png)
 
-The third shows an authenticated user's individual page, that includes their saved songs.
+The second wireframe shows the search page results:
 
-The fourth shows the login process to create a new user.
+![](screenshots/bppd_searchresults.png)
+
+The third wireframe shows an authenticated user's individual page, that includes their saved songs:
+
+![](screenshots/bppd_favoritespage.png)
