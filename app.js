@@ -25,6 +25,14 @@ var apiRouter = express.Router();
 app.use('/api', apiRouter);
 //====================
 
+//=====INITIALIZE SOUNDCLOUD API WITH KEYS IN .env FILE
+sc.init({
+  id: process.env.SOUNDCLOUD_CLIENT_ID,
+  secret: process.env.SOUNDCLOUD_CLIENT_SECRET,
+  uri: 'http://0.0.0.0:8080'
+});
+//====================
+
 //use morgan to show requests
 app.use(morgan('dev'));
 //use body-parser so we can grab info from params.body
