@@ -8,6 +8,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); //creating a schema in mongo
 var morgan = require('morgan'); //used to see the requests in console
+var dotenv = require('dotenv').load(); // used to load environment variables for api keys
+var sc = require('node-soundcloud'); // soundcloud api package
 
 var routes = require('./routes/index');
 //Database connection
