@@ -68,7 +68,7 @@ The Song model will provide details for each song via the soundcloud api. This w
 **Playlist**  
 While not in our MVP, with the addition of this model, users will have the ability to create and manage multiple playlists.
 
-
+https://moqups.com/petershim61@gmail.com/FGvEPRId
 
 **Wireframes**
 
