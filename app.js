@@ -11,6 +11,7 @@ var morgan = require('morgan'); //used to see the requests in console
 
 var routes = require('./routes/index');
 //Database connection
+mongoose.connect('mongodb://localhost/bppd'); //database connection string
 var User = require('./models/user');
 
 //=====APP CONFIG=====
@@ -44,6 +45,7 @@ app.use('/', routes);
 app.use('/users', User);
 
 //=====API ROUTES=====
+//New and Show all users
 apiRouter.route('/users')
   .post(function(req, res){
     //create a new instance of the user model
@@ -66,10 +68,11 @@ apiRouter.route('/users')
     });
   });
 
+  //Show, update, and delete User
   apiRouter.route('/users/:id')
     .get(function(req, res){
       User.findOne({_id: req.params.id}, function(err, user){
-        if(err) res.json({message: "You're WRONG!"});
+        if(err) res.json({message: "Error: Could not find user"});
         res.json(user);
       });
     })
