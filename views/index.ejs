@@ -27,7 +27,10 @@
       $(function(){
         var $input = $('#input-search');
         var $searchBtn = $('#btn-search');
-        console.log($input)
+        $searchBtn.click(function(event){
+          event.preventDefault();
+          console.log($input.val());
+        });
       })
     </script>
   </body>
