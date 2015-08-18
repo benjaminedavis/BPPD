@@ -67,6 +67,7 @@ apiRouter.route('/users')
       if(err){
         return res.status(401).send({message: err.errmsg});
       }else{
+        console.log(user);
         return res.status(200).send({message: 'user created!'});
       };
     });
