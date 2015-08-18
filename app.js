@@ -100,22 +100,22 @@ apiRouter.route('/users')
     });
 
   //TEST SOUNDCLOUD API REQUESTS:
-  apiRouter.route('/search/:query')
-    .get(function(req, res){
-      sc.get('/tracks',{q: req.params.query}, function(err, results) {
-        if ( err ) {
+  apiRouter.route('/search')
+    .get(function(req,res){
+      sc.get('/tracks', {q: req.query.searchString}, function(err, results) {
+        if( err ) {
           throw err;
         } else {
-          var songTitles = [];
+          var songIds = [];
           for(var i = 0; i < results.length; i += 1) {
-            songTitles.push(results[i].title);
+            songIds.push(results[i].id);
           }
-          //res.json(songTitles); //return just song titles from url params search:
-          res.json(results); //return complete result objects
+          res.json(songIds); //return just song titles from url params search:
+          //console.log(results); //return complete result objects
+          //res.json(results);
         }
-      });
+      })
     });
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
