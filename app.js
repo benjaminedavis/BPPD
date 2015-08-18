@@ -13,17 +13,13 @@ var sc = require('node-soundcloud'); // soundcloud api package
 
 var routes = require('./routes/index');
 //Database connection
-mongoose.connect('mongodb://localhost/bppd'); //database connection string
+mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
+// mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
 var User = require('./models/user');
 
 //=====APP CONFIG=====
 var app = express();
 var apiRouter = express.Router();
-
-//=====REGISTER ROUTES
-//Allows to be part of your express app
-app.use('/api', apiRouter);
-//====================
 
 //=====INITIALIZE SOUNDCLOUD API WITH KEYS IN .env FILE
 sc.init({
@@ -54,12 +50,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', User);
 
+//=====REGISTER ROUTES
+//Allows to be part of your express app
+app.use('/api', apiRouter);
+//====================
+
 //=====API ROUTES=====
 //New and Show all users
 apiRouter.route('/users')
   .post(function(req, res){
     //create a new instance of the user model
-    var user = new User(req.body.user);
+    var user = new User(req.body);
 
     //save the user and encrypt the pw
     user.save(function(err){
