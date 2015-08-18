@@ -6,6 +6,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/soundcloud_api.js"></script>
   </head>
   <body>
     <div class="container">
@@ -42,7 +43,7 @@
                 $('#results').slideUp("slow", function(){
                   $('.soundcloud-embed').remove();
                   for(var i = 0; i < response.length; i ++) {
-                    $results.append($('<iframe class="soundcloud-embed" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + results[i] + '&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
+                    $results.append($('<iframe id="sc-embed-'+ i + '" class="soundcloud-embed" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + results[i] + '&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
                   }
                   $('#results').slideDown("slow");
                 })
