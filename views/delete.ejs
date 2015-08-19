@@ -49,7 +49,7 @@
     <br><br>
     <div class="text-center">
       <button type="button" class="btn btn-success btn-lrg">Keep Me Active</button>
-      <button type="button" class="btn btn-danger btn-lrg">Confirm Delete</button>
+      <button id="confirm-delete" type="button" class="btn btn-danger btn-lrg">Confirm Delete</button>
     </div>
     </div>
     </div>
@@ -60,6 +60,26 @@
           <p>copyright &#169 2015 stratus and soundcloud</p>
       </div>
     </nav><!-- /.nav footer close-->
+
+    <script>
+      $(function(){
+        var $deleteBtn = $('#confirm-delete');
+        $deleteBtn.click(function(event){
+          event.preventDefault();
+          $.ajax({
+            type: 'DELETE',
+            url: '/users/delete/confirm',
+            dataType: 'json',
+            data: {
+              id: '<%= userId %>'
+            },
+            success: function(){
+              console.log('boom');
+            }
+          })
+        })
+      })
+    </script>
 
     </body>
     </html>
