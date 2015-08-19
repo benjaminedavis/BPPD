@@ -88,7 +88,8 @@ app.post('/signin',function(req, res){
         });
         //if user is found
         res.cookie("token", token);
-        res.json({success: true, message: "Here is your token", token: token});
+        //res.json({success: true, message: "Here is your token", token: token});
+        res.redirect('/');
       }
     }
   })
