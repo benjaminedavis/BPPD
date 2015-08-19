@@ -10,6 +10,8 @@ var mongoose = require('mongoose'); //creating a schema in mongo
 var morgan = require('morgan'); //used to see the requests in console
 var dotenv = require('dotenv').load(); // used to load environment variables for api keys
 var sc = require('node-soundcloud'); // soundcloud api package
+var bcrypt = require('bcrypt'); //encrypting your passwords
+var jwt = require('jsonwebtoken'); //create and verify tokens
 
 var routes = require('./routes/index');
 //Database connection
@@ -35,6 +37,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+//create token signature
+var secret = 'carlito';
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -55,7 +60,55 @@ app.use('/users', User);
 app.use('/api', apiRouter);
 //====================
 
+app.post('/signin',function(req, res){
+  var userParams = req.body;
+  console.log( "user to find" + userParams);
+  User.findOne({email: userParams.email
+  }).select('name email password songs').exec(function(err, user){
+    // if(err) throw err;
+    // console.log(user + 'app.post');
+    //no user with that username was found
+    if(!user){
+      res.json({success: false, message: "Authentication failed"});
+    }else if(user){
+      var validPassword = user.authenticate(userParams.password);
+      if(!validPassword){
+        res.json({success: false, message: "Wrong Password"});
+      }else{
+        var token = jwt.sign({
+          //creating token payload
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          songs: user.songs
+        },
+          secret,
+        { expireInMinutes: 1440 //expires in 24 hrs
+        });
+        //if user is found
+        res.cookie("token", token);
+        res.json({success: true, message: "Here is your token", token: token});
+      }
+    }
+  })
+});
+
 //=====API ROUTES=====
+apiRouter.use(function(req, res, next){
+  //checks for token in various locations
+  var token = req.cookies.token || req.body.token || req.param('token') || req.headers['x-access-token'];
+  //decode the token
+  if(token){
+    //verify secret and check expiration
+    jwt.verify(token, secret, function(err, decoded){
+      if(err) res.status(403).send({success: false, message: "Access Denied!"})
+      req.decoded = decoded;
+      next();
+    })
+  }else{
+    return res.status(403).send({success: false, message: "Not token provided"});
+  }
+});
 //New and Show all users
 apiRouter.route('/users')
   .post(function(req, res){
@@ -73,10 +126,12 @@ apiRouter.route('/users')
     });
   })
   .get(function(req, res){
+    var token = req.cookies.token;
+
     User.find({}, function(err, users){
       if(err) return res.status(401).send({message: err.errmsg});
       res.json(users);
-      console.log("successful");
+      console.log(token);
     });
   });
 

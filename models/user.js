@@ -36,10 +36,9 @@ userSchema.pre('save', function(next){
 //add an authenticate method to the user schema
 userSchema.methods.authenticate = function(password){
   var user = this;
+  console.log(this);
 
-  bcrypt.compare(password, user.password, function(err, isMatch){
-    callback(null, isMatch);
-  });
+  return bcrypt.compareSync(password, user.password);
 };
 
 //create user model out of userSchema (constructor function)
