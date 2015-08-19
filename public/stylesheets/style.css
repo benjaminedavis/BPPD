@@ -13,7 +13,7 @@
 
 body {
   padding-top: 55px;
-  padding-bottom: 0px;
+  padding-bottom: 45px;
   /*to offset the fixed footer and header- defaulted to zero */
 }
 
