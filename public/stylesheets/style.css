@@ -1,0 +1,24 @@
+#nav-logo {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+#nav-search {
+  margin-top: 4px;
+}
+
+#nav-links {
+  font-size: 20px;
+}
+
+body {
+  padding-top: 55px;
+  padding-bottom: 0px;
+  /*to offset the fixed footer and header- defaulted to zero */
+}
+
+#footer-text {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 16px;
+}
