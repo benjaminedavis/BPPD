@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 /* sends user to delete confirmation page */
 router.get('/delete', function(req, res, next) {
   if (req.token) {
-    res.render('../views/delete');
+    res.render('../views/delete', {userId: req.decoded.id});
   }else {
     console.log('You are not authorized');
     res.redirect('/');
@@ -21,18 +21,12 @@ router.get('/delete', function(req, res, next) {
 });
 
 router.delete('/delete/confirm', function(req, res){
-  User.findOne({_id: req.body.id}, function(err, user){
-    if(err) {
-      console.log(err);
-      res.json({'message': "error: could not delete user"})
-      return
-    } else {
-      console.log(user);
-      user.remove();
-      res.json({'message': 'deleted user:'+ req.body.id});
-      //res.redirect('/')
-    };
-  });
+  User.findOneAndRemove({_id: req.body.id}, function(err, user){
+    if(err) return console.log(err);
+    console.log(user);
+    res.clearCookie('token');
+    res.redirect('/');
+  })
 });
 
 module.exports = router;
