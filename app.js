@@ -12,6 +12,7 @@ var dotenv = require('dotenv').load(); // used to load environment variables for
 var sc = require('node-soundcloud'); // soundcloud api package
 
 var routes = require('./routes/index');
+var users = require('./routes/users');
 //Database connection
 mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
 // mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
@@ -48,7 +49,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', User);
+app.use('/users', users);
 
 //=====REGISTER ROUTES
 //Allows to be part of your express app
