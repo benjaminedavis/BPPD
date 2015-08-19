@@ -17,6 +17,11 @@ body {
   /*to offset the fixed footer and header- defaulted to zero */
 }
 
+#delete-user-confirm {
+  text-align: center;
+  font-weight: 300;
+}
+
 #footer-text {
   font-size: 12px;
   text-align: center;
