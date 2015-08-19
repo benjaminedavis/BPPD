@@ -35,7 +35,8 @@
 
         <ul class="nav navbar-nav navbar-right" id="nav-links">
           <li><a href="#">your music</a></li>
-          <li><a href="#">login</a></li>
+          <!-- This is the line of code I'm changing for the modal link to work 8/19 for Authentication------------------------------>
+          <li id="loginButton"><a href="#">login</a></li>
         </ul>
       </div><!-- /.navbar-right close-->
 
@@ -73,14 +74,14 @@
     <!-- text inside modal -------->
             <div class="container1">
     <h2>Please sign in</h2>
-    <form role="form">
+    <form role="form" method="post" action="/signin">
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email">
+      <input name="email" type="email" class="form-control" id="email" placeholder="Enter email">
     </div>
     <div class="form-group">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+      <input name="password" type="password" class="form-control" id="pwd" placeholder="Enter password">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
     </form>
@@ -96,7 +97,7 @@
     </div>
     </div>
     <script>
-    $("#myBtn").click(function(){
+    $("#loginButton").click(function(){
     $("#myModal").modal();
     });
     </script>

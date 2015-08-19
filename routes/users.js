@@ -11,7 +11,12 @@ router.get('/', function(req, res, next) {
 
 /* sends user to delete confirmation page */
 router.get('/delete', function(req, res, next) {
-  res.render('../views/delete');
+  if (req.token) {
+    res.render('../views/delete');
+  }else {
+    console.log('You are not authorized');
+    res.redirect('/');
+  }
   // res.send('confirm delete page')
 });
 
