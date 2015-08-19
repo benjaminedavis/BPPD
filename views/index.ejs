@@ -35,7 +35,8 @@
 
         <ul class="nav navbar-nav navbar-right" id="nav-links">
           <li><a href="#">your music</a></li>
-          <li><a href="#">login</a></li>
+          <!-- This is the line of code I'm changing for the modal link to work 8/19 for Authentication------------------------------>
+          <li id="loginButton"><a href="#">login</a></li>
         </ul>
       </div><!-- /.navbar-right close-->
 
@@ -96,7 +97,7 @@
     </div>
     </div>
     <script>
-    $("#myBtn").click(function(){
+    $("#loginButton").click(function(){
     $("#myModal").modal();
     });
     </script>

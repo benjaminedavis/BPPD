@@ -95,21 +95,21 @@ app.post('/signin',function(req, res){
 });
 
 //=====API ROUTES=====
-apiRouter.use(function(req, res, next){
-  //checks for token in various locations
-  var token = req.cookies.token || req.body.token || req.param('token') || req.headers['x-access-token'];
-  //decode the token
-  if(token){
-    //verify secret and check expiration
-    jwt.verify(token, secret, function(err, decoded){
-      if(err) res.status(403).send({success: false, message: "Access Denied!"})
-      req.decoded = decoded;
-      next();
-    })
-  }else{
-    return res.status(403).send({success: false, message: "Not token provided"});
-  }
-});
+// apiRouter.use(function(req, res, next){
+//   //checks for token in various locations
+//   var token = req.cookies.token || req.body.token || req.param('token') || req.headers['x-access-token'];
+//   //decode the token
+//   if(token){
+//     //verify secret and check expiration
+//     jwt.verify(token, secret, function(err, decoded){
+//       if(err) res.status(403).send({success: false, message: "Access Denied!"})
+//       req.decoded = decoded;
+//       next();
+//     })
+//   }else{
+//     return res.status(403).send({success: false, message: "Not token provided"});
+//   }
+// });
 //New and Show all users
 apiRouter.route('/users')
   .post(function(req, res){
