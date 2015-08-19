@@ -29,8 +29,8 @@ router.delete('/delete/confirm', function(req, res){
     } else {
       console.log(user);
       user.remove();
-      // res.json({'message': 'deleted user:'+ req.body.id});
-      res.render('/');
+      res.json({'message': 'deleted user:'+ req.body.id});
+      //res.redirect('/')
     };
   });
 });
