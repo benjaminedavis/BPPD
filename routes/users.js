@@ -8,7 +8,12 @@ router.get('/', function(req, res, next) {
 
 /* DELETE individual user. */
 router.get('/delete', function(req, res, next) {
-  res.render('../views/delete');
+  if (req.token) {
+    res.render('../views/delete');
+  }else {
+    console.log('You are not authorized');
+    res.redirect('/');
+  }
   // res.send('confirm delete page')
 });
 
