@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/soundcloud_api.js"></script>
+  </head>
+  <body>
+    <!--<%# Nav bar header%> -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+
+      <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a id="nav-logo" class="navbar-brand" href="#">stratus</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="col-sm-6">
+      <div id="nav-search" class="input-group">
+        <input type="text" class="form-control input-sm" placeholder="search music">
+          <span class="input-group-btn">
+            <button class="btn btn-default btn-sm" type="button">Go!</button>
+          </span>
+      </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+
+        <ul class="nav navbar-nav navbar-right" id="nav-links">
+          <li><a href="#">your music</a></li>
+          <!-- This is the line of code I'm changing for the modal link to work 8/19 for Authentication------------------------------>
+          <% if(token) { %>
+            <li id="logoutButton"><a href="/logout">logout</a></li>
+          <% } else { %>
+            <li id="loginButton"><a href="#">login</a></li>
+          <% } %>
+        </ul>
+      </div><!-- /.navbar-right close-->
+
+      </div><!-- /.container-fluid close-->
+    </nav><!-- /.nav header close-->
+
+    <!-- body content -->
+    <div class="container">
+      <%- body %>
+    </div>
+    <!------------------>
+
+    <!-- Modal -------------------------------------------------------------->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Authentication modal, used with: user.ejs and index.ejs<br>
+            and will exist in the nav bar and the Favorites star</h4>
+          </div>
+          <div class="modal-body">
+    <!-- text inside modal -------->
+            <div class="container1">
+    <h2>Please sign in</h2>
+    <form role="form" method="post" action="/signin">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input name="email" type="email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input name="password" type="password" class="form-control" id="pwd" placeholder="Enter password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    </div><br>
+    <!-- button for create new account -->
+    <button type="button" class="btn btn-primary">Create new account</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <script>
+    $("#loginButton").click(function(){
+      $("#myModal").modal();
+    });
+    /*$('#logoutButton').click(function(){
+
+    })*/
+    </script>
+    <!-- End of David's modal code  -------------------->
+
+    <!-- footer -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div id="footer-text" class="container">
+          <p>copyright &#169 2015 stratus and soundcloud</p>
+      </div>
+    </nav><!-- /.nav footer close-->
+  </body>
+</html>

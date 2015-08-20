@@ -12,6 +12,7 @@ var dotenv = require('dotenv').load(); // used to load environment variables for
 var sc = require('node-soundcloud'); // soundcloud api package
 var bcrypt = require('bcrypt'); //encrypting your passwords
 var jwt = require('jsonwebtoken'); //create and verify tokens
+var ejsLayouts = require("express-ejs-layouts"); //to create view partials
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -44,6 +45,7 @@ var secret = 'carlito';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(ejsLayouts);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -53,6 +55,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//=====Token Check=====
 app.use(function(req, res, next){
   //checks for token in various locations
   var token = req.cookies.token || req.body.token || req.param('token') || req.headers['x-access-token'];
@@ -77,8 +80,6 @@ app.use(function(req, res, next){
 app.use('/', routes);
 app.use('/users', users);
 
-
-
 //=====REGISTER ROUTES
 //Allows to be part of your express app
 app.use('/api', apiRouter);
@@ -101,10 +102,10 @@ app.post('/signin',function(req, res){
       }else{
         var token = jwt.sign({
           //creating token payload
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          songs: user.songs
+          id: user._id
+          // name: user.name,
+          // email: user.email,
+          // songs: user.songs
         },
           secret,
         { expireInMinutes: 1440 //expires in 24 hrs
@@ -207,7 +208,9 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      error: err,
+      token: req.token,
+      title: 'error'
     });
   });
 }
@@ -218,7 +221,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: {}
+    error: {},
+    token: req.token,
+    title: 'error'
   });
 });
 
