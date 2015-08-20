@@ -79,7 +79,8 @@ router.post('/new', function(req, res){
       // error message
       return res.status(401).send({message: err.errmsg});
     }else{
-      return res.status(200).send({message: 'user created!'});
+      //return res.status(200).send({message: 'user created!'});
+      res.redirect('/');
     }
   });
 });
