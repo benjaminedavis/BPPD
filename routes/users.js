@@ -18,6 +18,27 @@ router.get('/', function(req, res, next) {
   })
 })*/
 
+//Add songs route
+router.put('/addsong', function(req, res, next){
+  User.findOne({_id: req.decoded.id}, function(err, user){
+    var songId = req.body.songId;
+    console.log('Adding song:' + songId);
+    //To check if song is already added
+    if(user.songs.filter(function(value){ return value == songId}).length == 0){
+      console.log(songId + ' has been added to your playlist')
+      user.songs.push(songId);
+      user.save();
+      next();
+    }else{
+      //If song is already in songs list, delete
+      user.songs.splice(user.songs.indexOf(songId), 1);
+      console.log('Song ' + songId + ' has been deleted');
+      user.save();
+      next();
+    }
+  });
+});
+
 /* sends user to delete confirmation page */
 router.get('/delete', function(req, res, next) {
   if (req.token) {
