@@ -57,7 +57,11 @@ router.get('/new', function(req, res, next) {
 
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {
-  res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
+  if(req.token){ 
+    res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
+  } else {
+    res.redirect('/')
+  }
 });
 
 router.delete('/delete/confirm', function(req, res){
