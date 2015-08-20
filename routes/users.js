@@ -42,7 +42,7 @@ router.put('/addsong', function(req, res, next){
 /* sends user to delete confirmation page */
 router.get('/delete', function(req, res, next) {
   if (req.token) {
-    res.render('../views/delete', {userId: req.decoded.id});
+    res.render('../views/delete', {token: req.decoded, userId: req.decoded.id});
   }else {
     console.log('You are not authorized');
     res.redirect('/');
@@ -51,7 +51,7 @@ router.get('/delete', function(req, res, next) {
 });
 /* NEW users listing. */
 router.get('/new', function(req, res, next) {
-  res.render('new.ejs');
+  res.render('new.ejs', {});
 });
 
 
