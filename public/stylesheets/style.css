@@ -1,3 +1,10 @@
+body {
+  padding-top: 65px;
+  padding-bottom: 45px;
+  /*to offset the fixed footer and header- defaulted to zero */
+}
+
+/* GLOBAL NAVIGATION */
 #nav-logo {
   margin-top: -7px;
   font-size: 30px;
@@ -12,12 +19,7 @@
   font-size: 20px;
 }
 
-body {
-  padding-top: 65px;
-  padding-bottom: 45px;
-  /*to offset the fixed footer and header- defaulted to zero */
-}
-
+/* UI ELEMENTS*/
 .like-rad-sm {
     font-size: 24px;
     margin: 10px 5px 10px 0px;
@@ -32,11 +34,14 @@ body {
     width:300px;
 }
 
+/* DELETE CONFIRMATION */
 #delete-user-confirm {
   text-align: center;
   font-weight: 300;
 }
 
+
+/* FOOTER */
 #footer-text {
   color: white;
   font-size: 12px;
