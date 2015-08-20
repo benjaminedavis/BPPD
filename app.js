@@ -80,12 +80,6 @@ app.use(function(req, res, next){
 app.use('/', routes);
 app.use('/users', users);
 
-//=====TEST LAYOUT=====
-app.get('/testview', function(req, res){
-  res.render('testview', { token: req.decoded});
-});
-
-
 //=====REGISTER ROUTES
 //Allows to be part of your express app
 app.use('/api', apiRouter);
