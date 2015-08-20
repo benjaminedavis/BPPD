@@ -35,7 +35,22 @@ router.delete('/delete/confirm', function(req, res){
     console.log(user);
     res.clearCookie('token');
     res.redirect('/');
-  })
+  });
+});
+// POST create new user on the database
+router.post('/new', function(req, res){
+  //create a new instance of the user model, saved onto database
+  // uses the user model schema to create new instance
+  var user = new User(req.body);
+  //save the user
+  user.save(function(err){
+    if(err){
+      // error message
+      return res.status(401).send({message: err.errmsg});
+    }else{
+      return res.status(200).send({message: 'user created!'});
+    }
+  });
 });
 
 module.exports = router;
