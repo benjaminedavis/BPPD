@@ -17,8 +17,8 @@ var ejsLayouts = require("express-ejs-layouts"); //to create view partials
 var routes = require('./routes/index');
 var users = require('./routes/users');
 //Database connection
-mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
-// mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
+// mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
+mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
 var User = require('./models/user');
 
 //=====APP CONFIG=====
