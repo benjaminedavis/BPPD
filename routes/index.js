@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', token: req.token });
+  res.render('index', { title: 'stratus', token: req.token });
 });
 
 module.exports = router;

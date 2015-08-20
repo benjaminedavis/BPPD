@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
   User.findOne({_id: req.decoded.id}, function(err, user){
     if(err) return console.log(err);
 
-    res.render('../views/show', {songsList: user.songs, userName: user.name})
+    res.render('../views/show', {title: user.name, songsList: user.songs, userName: user.name})
   })
 })*/
 
@@ -42,7 +42,7 @@ router.put('/addsong', function(req, res, next){
 /* sends user to delete confirmation page */
 router.get('/delete', function(req, res, next) {
   if (req.token) {
-    res.render('../views/delete', {token: req.decoded, userId: req.decoded.id});
+    res.render('../views/delete', {title: 'Delete User Account', token: req.decoded, userId: req.decoded.id});
   }else {
     console.log('You are not authorized');
     res.redirect('/');
@@ -51,14 +51,15 @@ router.get('/delete', function(req, res, next) {
 });
 /* NEW users listing. */
 router.get('/new', function(req, res, next) {
-  res.render('new.ejs', {token: req.token});
+  res.render('new.ejs', {title: 'Create New Account', token: req.token, });
 });
 
 
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {
-  res.render('edit.ejs');
+  res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
 });
+
 router.delete('/delete/confirm', function(req, res){
   User.findOneAndRemove({_id: req.body.id}, function(err, user){
     if(err) return console.log(err);
