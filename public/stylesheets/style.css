@@ -18,6 +18,20 @@ body {
   /*to offset the fixed footer and header- defaulted to zero */
 }
 
+.like-rad-sm {
+    font-size: 24px;
+    margin: 10px 5px 10px 0px;
+    height:55px;
+    width:90px;
+}
+
+.like-rad-lg {
+    font-size: 24px;
+    margin: 10px 10px 10px 10px;
+    height:55px;
+    width:300px;
+}
+
 #delete-user-confirm {
   text-align: center;
   font-weight: 300;
