@@ -118,6 +118,13 @@ app.post('/signin',function(req, res){
   })
 });
 
+app.get('/logout', function(req,res){
+  var userParams = req.decoded.id;
+  console.log('User Trying to log out:', userParams);
+  res.clearCookie('token');
+  res.redirect('/');
+});
+
 //=====API ROUTES=====
 //New and Show all users
 apiRouter.route('/users')
