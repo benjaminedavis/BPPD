@@ -1,39 +1,57 @@
 
       <!-- SIGN UP FORM -->
       <div class="row">
-        <form class="form-horizontal">
-          <fieldset>
-          <!-- Form Name -->
-          <legend>Create account</legend>
-          <!-- Name input-->
-          <div class="control-group">
-            <label class="control-label" for="textinput">Name </label>
-            <div class="controls">
-              <input id="textinput" name="textinput" type="text" placeholder="John Smith" class="input-xlarge">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+              <h1>Create A New Account</h1>
             </div>
           </div>
-          <!-- Email input-->
-          <div class="control-group">
-            <label class="control-label" for="textinput">Email address</label>
-            <div class="controls">
-              <input id="textinput" name="textinput" type="text" placeholder="email@email.com" class="input-xlarge">
+        </div>
+        <form data-toggle="validator" role="form" class="form-horizontal" method="post" action="/users/new">
+          <div class="form-group">
+            <label for="inputName" class="control-label col-sm-2">Name</label>
+            <div class="form-group col-sm-6">
+              <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
             </div>
           </div>
-          <!-- Password input-->
-          <div class="control-group">
-            <label class="control-label" for="passwordinput">Password</label>
-            <div class="controls">
-              <input id="passwordinput" name="passwordinput" type="password" placeholder="password" class="input-xlarge">
+          
+          <div class="form-group">
+            <label for="inputEmail" class="control-label col-sm-2">Email</label>
+            <div class="form-group  col-sm-6">
+              <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Bruh, that email address is invalid" required>
+            <!-- <div class="help-block with-errors"></div> -->
             </div>
           </div>
-          <!-- Password confirm input-->
-          <div class="control-group">
-            <label class="control-label" for="passwordinput">Confirm password</label>
-            <div class="controls">
-              <input id="passwordinput" name="passwordinput" type="password" placeholder="password" class="input-xlarge">
+          <div class="form-group">
+            <label for="inputPassword" class="control-label col-sm-2">Password</label>
+            <div class="form-group col-sm-6">
+              <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
             </div>
           </div>
-          </fieldset>
+          <div class="form-group">
+            <label for="inputPasswordConfirm" class="control-label col-sm-2">Confirm Password</label>
+            <div class="form-group col-sm-6 col-sm-offset-2">
+              <input name="passwordConfirmation" type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+            <div class="col-sm-2"></div>
+            <div class="form-group col-sm-6">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+          
+          
         </form>
+        </div>
       </div>
+
+      <script>
+      $(function(){
+        /*$('#newAccountForm').validator('validate')
+        $('#newAccountForm').validator()*/
+
+      })
+      </script>
       <!-- END SIGN UP FORM -->

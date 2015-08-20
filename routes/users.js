@@ -51,7 +51,7 @@ router.get('/delete', function(req, res, next) {
 });
 /* NEW users listing. */
 router.get('/new', function(req, res, next) {
-  res.render('new.ejs', {title: 'Create New Account', token: req.token, });
+  res.render('new', {title: 'Create New Account', token: req.token, });
 });
 
 
@@ -79,7 +79,8 @@ router.post('/new', function(req, res){
       // error message
       return res.status(401).send({message: err.errmsg});
     }else{
-      return res.status(200).send({message: 'user created!'});
+      //return res.status(200).send({message: 'user created!'});
+      res.redirect('/');
     }
   });
 });
