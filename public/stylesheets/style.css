@@ -1,10 +1,11 @@
 #nav-logo {
+  margin-top: -7px;
   font-size: 30px;
   font-weight: 500;
 }
 
 #nav-search {
-  margin-top: 4px;
+  margin-top: 13px;
 }
 
 #nav-links {
@@ -12,7 +13,7 @@
 }
 
 body {
-  padding-top: 55px;
+  padding-top: 65px;
   padding-bottom: 45px;
   /*to offset the fixed footer and header- defaulted to zero */
 }
@@ -23,7 +24,8 @@ body {
 }
 
 #footer-text {
+  color: white;
   font-size: 12px;
   text-align: center;
-  margin-top: 16px;
+  margin-top: 20px;
 }
