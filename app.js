@@ -209,7 +209,8 @@ if (app.get('env') === 'development') {
     res.render('error', {
       message: err.message,
       error: err,
-      token: req.token
+      token: req.token,
+      title: 'error'
     });
   });
 }
@@ -221,7 +222,8 @@ app.use(function(err, req, res, next) {
   res.render('error', {
     message: err.message,
     error: {},
-    token: req.token
+    token: req.token,
+    title: 'error'
   });
 });
 
