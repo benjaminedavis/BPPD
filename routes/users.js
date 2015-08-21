@@ -59,6 +59,7 @@ router.get('/:id/edit', function(req, res, next) {
     res.render('edit.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userName: user.name, userEmail: user.email});
     };
   });
+});
 
 // The "method" and the "action" of the edit ejs form have to match the  route method and the url here
 router.post('/edit', function(req, res){
@@ -115,7 +116,7 @@ router.get('/:id', function(req, res, next) {
     res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
     //? should it be ('../views/show',
     //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
-    };
+    }
   });
 });
 
