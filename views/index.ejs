@@ -65,30 +65,36 @@
             
             widget.bind(SC.Widget.Events.PLAY, function() {
               widget.getCurrentSound(function(currentSound) {
-                nextSearchWords.push(currentSound.genre)
+
+                var title = currentSound.title.replace(/['"]+/g, '').split(' ');
+                for(var i = 0; i < title.length; i ++) {
+                  nextSearchWords.push(title[i]);
+                }
                 
-                var tagList = currentSound.tag_list.replace(/['"]+/g, '').split(' ');
-                if(tagList.length > 0) { 
+                if(currentSound.genre) {
+                  nextSearchWords.push(currentSound.genre);
+                }
+                if(currentSound.tag_list.length > 0 && (currentSound.tag_list.indexOf(':source') == -1)) {
+                  var tagList = currentSound.tag_list.replace(/['"]+/g, '').split(' ');
                   for(var i = 0; i < tagList.length; i ++) {
                     nextSearchWords.push(tagList[i]);
                   }
                 }
-
-                var nextSearchParam1 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1);
+                
+                console.log(nextSearchWords);
+                console.log('contains the phrase :source: ' + currentSound.tag_list.indexOf(':source'))
+                /*var nextSearchParam1 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1);
                 nextSearchParams.push(nextSearchParam1);
                 var nextSearchParam2 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1);
                 nextSearchParams.push(nextSearchParam2)
-                //console.log(nextSearchParams.join(' '));
-                //console.log(currentSound)
-
+                console.log(nextSearchParams);*/
                 //console.log(nextSearchWords);
-                
               });
             });
             widget.bind(SC.Widget.Events.FINISH, function(){
               widget.getCurrentSound(function(currentSound){
                 console.log(currentSound.title + ' just finished.');
-                //getASong(nextSearchWords.join(' '));
+                getASong(nextSearchParams.join(' '));
               });
             })
           });
