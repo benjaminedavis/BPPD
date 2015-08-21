@@ -15,10 +15,6 @@
         </div>
       </div>
       <!-- END SEARCH BAR -->
-
-      <!-- Favorites button -->
-      <button id="btn-add" class="btn btn-primary btn-lg" type="submit"><span id="favorite" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-
       </div>
 
 <!-- SEARCH SCRIPT -->
@@ -46,10 +42,15 @@
                 var randResultNum = Math.round(Math.random() * (response.length -1));
                 var randomSong = response[randResultNum];
                 $('#results').slideUp("slow", function(){
-                  $('.soundcloud-embed').remove();
-                  $results.append($('<iframe id="sc-current-song" class="soundcloud-embed" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
+                  $('.search-result').remove();
+                  $results.append($('<div class="search-result"><iframe id="sc-current-song" class="soundcloud-embed" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe><button class="btn btn-add btn-primary btn-lg" data-song-id="' + randomSong + '"><span id="favorite" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button></div>'));
                   $('#results').slideDown("slow");
                   bindSCWidgetEvents('sc-current-song');
+                  bindLikeBtn();
+
+
+
+
                 })
               }
           });
@@ -101,25 +102,30 @@
           });
         }
 
-        var $addBtn = $('#btn-add');
-        var $songId = 1234; // will grab from below sound cloud code
-        $addBtn.click(function(event){
-          event.preventDefault();
-          $.ajax({
-            url: '/users/addsong/' + $songId,
-            // data: {songId: $songId},
-            // contentType: "application/json; charset=utf-8",
-            // dataType: 'json',
-            success: function(response){
-              if(response.results){
-                //call back function should be refactored
-                console.log(response.results + ' your song has been added');
-              }else{
-                console.log(response.results + ' your song has been removed');
+
+        function bindLikeBtn() {
+          var $addBtn = $('.btn-add');
+          var $songId = $addBtn.data('song-id'); // will grab from below sound cloud code
+          $addBtn.click(function(event){
+            event.preventDefault();
+            console.log('song to add:', $songId);
+            $.ajax({
+              url: '/users/addsong/' + $songId,
+              // data: {songId: $songId},
+              // contentType: "application/json; charset=utf-8",
+              // dataType: 'json',
+              success: function(response){
+                if(response.results){
+                  //call back function should be refactored
+                  console.log(response.results + ' your song has been added');
+                }else{
+                  console.log(response.results + ' your song has been removed');
+                }
               }
-            }
-          })
-        });
+            })
+          });
+        }
+
       })
     </script>
 <!-- END SEARCH SCRIPT -->
