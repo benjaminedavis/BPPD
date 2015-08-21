@@ -34,10 +34,12 @@
           </div>
 
           <ul class="nav navbar-nav navbar-right" id="nav-links">
-            <li><a href="#">your music</a></li>
             <% if(token) { %>
+              <li><a href="/users/<%= token.id %>">your music</a></li>
+              <li><a href="/users/edit">settings</a></li>
               <li id="logoutButton"><a href="/logout">logout</a></li>
             <% } else { %>
+              <li><a href="/new/account">sign up</a></li>
               <li id="loginButton"><a href="#">login</a></li>
             <% } %>
           </ul>
@@ -80,10 +82,11 @@
       </div>
     </div>
   </div>
-  
+
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div id="footer-text" class="container">
-          <p>copyright &#169 2015 stratus and soundcloud</p>
+          <p><a href="/about">about us</a></p>
+          <p>copyright &#169 2015 stratus</p>
       </div>
     </nav>
     <script>

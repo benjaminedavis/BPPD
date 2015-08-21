@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var User = require('../models/user');
 
@@ -9,25 +10,11 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-// SHOW user's saved music
-router.get('/:id', function(req, res, next) {
-  User.findOne({_id: req.params.id}, function(err, user){
-     //? should it be req.decoded.id
-    if(err) {
-      console.log(err);
-    } else {
-    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs});
-    //? should it be ('../views/show',
-    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
-    };
-  });
-});
-
 //Add songs route
 router.get('/addsong/:songId', function(req, res, next){
   User.findOne({_id: req.decoded.id}, function(err, user){
-    var songId = req.body.songId;
-    console.log('Adding song:' + songId);
+    var songId = req.params.songId;
+    console.log(user.songs);
     //To check if song is already added
     if(user.songs.filter(function(value){ return value == songId}).length == 0){
       console.log(songId + ' has been added to your playlist')
@@ -36,7 +23,7 @@ router.get('/addsong/:songId', function(req, res, next){
       res.send({
         results: true,
         songs: user.songs});
-      next();
+
     }else{
       //If song is already in songs list, delete
       user.songs.splice(user.songs.indexOf(songId), 1);
@@ -45,7 +32,7 @@ router.get('/addsong/:songId', function(req, res, next){
       res.send({
         results: false,
         songs: user.songs});
-      next();
+
     }
   });
 });
@@ -72,7 +59,6 @@ router.get('/:id/edit', function(req, res, next) {
     res.render('edit.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userName: user.name, userEmail: user.email});
     };
   });
-});
 
 // The "method" and the "action" of the edit ejs form have to match the  route method and the url here
 router.post('/edit', function(req, res){
@@ -116,6 +102,20 @@ router.post('/new/account', function(req, res){
       //return res.status(200).send({message: 'user created!'});
       res.redirect('/');
     }
+  });
+});
+
+// SHOW user's saved music
+router.get('/:id', function(req, res, next) {
+  User.findOne({_id: req.params.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
+    //? should it be ('../views/show',
+    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
+    };
   });
 });
 
