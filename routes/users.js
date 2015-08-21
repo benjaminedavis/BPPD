@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var bcrypt = require('bcrypt');
 
 var User = require('../models/user');
 
@@ -49,8 +50,8 @@ router.get('/delete', function(req, res, next) {
 });
 
 /* EDIT users info. */
-router.get('/:id/edit', function(req, res, next) {
-  User.findOne({_id: req.params.id}, function(err, user){
+router.get('/edit', function(req, res, next) {
+  User.findOne({_id: req.decoded.id}, function(err, user){
      //? should it be req.decoded.id
     if(err) {
       console.log(err);
@@ -60,26 +61,6 @@ router.get('/:id/edit', function(req, res, next) {
     };
   });
 });
-
-// The "method" and the "action" of the edit ejs form have to match the  route method and the url here
-router.post('/edit', function(req, res){
-  //console.log(req.body);
-  // takes the current users token and finds the Id that matches
-  console.log(req);
-    // User.findOneAndUpdate({_id: req.decoded.id}, req.body, function(err, user){
-    //   if(err) {
-    //     return console.log(err);
-    //   } else {
-    //     res.redirect('/');
-    //   }
-    // });
-});
-
-
-
-
-
-
 
 router.delete('/delete/confirm', function(req, res){
   User.findOneAndRemove({_id: req.body.id}, function(err, user){
@@ -119,5 +100,15 @@ router.get('/:id', function(req, res, next) {
     }
   });
 });
+
+router.post('/edit', function(req,res) {
+  //console.log(req.body);
+  User.findOne({_id: req.decoded.id}).select('name email password').exec(function(err, user){
+    if(err) return console.log(err);
+    //console.log(user);
+    //console.log(user.authenticate(req.body.password))
+  })
+
+})
 
 module.exports = router;

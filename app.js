@@ -74,7 +74,7 @@ app.use(function(req, res, next){
     next();
     // return res.status(403).send({success: false, message: "Not token provided"});
   }
-  console.log(token);
+  //console.log(token);
 });
 
 app.use('/', routes);

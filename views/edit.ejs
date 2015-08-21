@@ -8,32 +8,31 @@
             </div>
           </div>
         </div>
-        <%# This is form tag which tells us where we're sending the form, must match the router.post in the routes %>
         <form data-toggle="validator" role="form" class="form-horizontal" method="post" action="/users/edit">
           <div class="form-group">
             <label for="inputName" class="control-label col-sm-2">Name</label>
             <div class="form-group col-sm-6">
-              <input name="name" type="text" class="form-control" id="inputName" value=<%= userName %> required>
+              <input name="name" type="text" class="form-control" id="inputName" value="<%= userName %>">
             </div>
           </div>
 
           <div class="form-group">
             <label for="inputEmail" class="control-label col-sm-2">Email</label>
             <div class="form-group  col-sm-6">
-              <input name="email" type="email" class="form-control" id="inputEmail" value=<%= userEmail %>  data-error="Bruh, that email address is invalid" required>
+              <input name="email" type="email" class="form-control" id="inputEmail" value="<%= userEmail %>"  data-error="Bruh, that email address is invalid">
             <!-- <div class="help-block with-errors"></div> -->
             </div>
           </div>
           <div class="form-group">
             <label for="inputPassword" class="control-label col-sm-2">Password</label>
             <div class="form-group col-sm-6">
-              <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+              <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
             </div>
           </div>
           <div class="form-group">
             <label for="inputPasswordConfirm" class="control-label col-sm-2">Confirm Password</label>
             <div class="form-group col-sm-6 col-sm-offset-2">
-              <input name="passwordConfirmation" type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
+              <input name="passwordConfirmation" type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm">
               <div class="help-block with-errors"></div>
             </div>
           </div>
