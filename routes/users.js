@@ -9,20 +9,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-// SHOW user's saved music
-router.get('/:id', function(req, res, next) {
-  User.findOne({_id: req.params.id}, function(err, user){
-     //? should it be req.decoded.id
-    if(err) {
-      console.log(err);
-    } else {
-    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs});
-    //? should it be ('../views/show',
-    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
-    };
-  });
-});
-
 //Add songs route
 router.get('/addsong/:songId', function(req, res, next){
   User.findOne({_id: req.decoded.id}, function(err, user){
@@ -62,12 +48,14 @@ router.get('/delete', function(req, res, next) {
 });
 
 /* EDIT users info. */
-router.get('/edit', function(req, res, next) {
+router.get('/edit', function(req, res) {
   if(req.token){
     res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
   } else {
     res.redirect('/')
   }
+  // console.log('it got to the route');
+  res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
 });
 
 router.delete('/delete/confirm', function(req, res){
@@ -92,6 +80,20 @@ router.post('/new', function(req, res){
       //return res.status(200).send({message: 'user created!'});
       res.redirect('/');
     }
+  });
+});
+
+// SHOW user's saved music
+router.get('/:id', function(req, res, next) {
+  User.findOne({_id: req.params.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
+    //? should it be ('../views/show',
+    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
+    };
   });
 });
 
