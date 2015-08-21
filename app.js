@@ -17,13 +17,8 @@ var ejsLayouts = require("express-ejs-layouts"); //to create view partials
 var routes = require('./routes/index');
 var users = require('./routes/users');
 //Database connection
-<<<<<<< HEAD
-mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
-//mongoose.connect('mongodb://' + process.env.MONGOLAB_USER + ':' + process.env.MONGOLAB_USER + '@' + process.env.MONGOLAB_DB); //database connection string
-=======
 // mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
 mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
->>>>>>> edcf58eb33bab22b9b1ed2f130be0bd4c2c39d55
 var User = require('./models/user');
 
 //=====APP CONFIG=====

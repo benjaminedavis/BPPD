@@ -16,7 +16,7 @@ router.get('/:id', function(req, res, next) {
     if(err) {
       console.log(err);
     } else {
-    res.render('show.ejs', {title: 'Your Saved Music', token: req.token});
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs});
     //? should it be ('../views/show',
     //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
     };
@@ -61,7 +61,7 @@ router.get('/new', function(req, res, next) {
 
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {
-  if(req.token){ 
+  if(req.token){
     res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
   } else {
     res.redirect('/')
