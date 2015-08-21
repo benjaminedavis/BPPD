@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var bcrypt = require('bcrypt');
 
 var User = require('../models/user');
 
@@ -49,14 +50,16 @@ router.get('/delete', function(req, res, next) {
 });
 
 /* EDIT users info. */
-router.get('/edit', function(req, res) {
-  if(req.token){
-    res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
-  } else {
-    res.redirect('/')
-  }
-  // console.log('it got to the route');
-  res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
+router.get('/edit', function(req, res, next) {
+  User.findOne({_id: req.decoded.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+      //
+    res.render('edit.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userName: user.name, userEmail: user.email});
+    };
+  });
 });
 
 router.delete('/delete/confirm', function(req, res){
@@ -68,7 +71,7 @@ router.delete('/delete/confirm', function(req, res){
   });
 });
 // POST create new user on the database
-router.post('/new', function(req, res){
+router.post('/new/account', function(req, res){
   //create a new instance of the user model, saved onto database
   // uses the user model schema to create new instance
   var user = new User(req.body);
@@ -94,8 +97,23 @@ router.get('/:id', function(req, res, next) {
     res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
     //? should it be ('../views/show',
     //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
-    };
+    }
   });
 });
+
+router.post('/edit', function(req,res) {
+  //console.log(req.body);
+  User.findOne({_id: req.decoded.id}).select('name email password').exec(function(err, user){
+    if(err) return console.log(err);
+    user.name = req.body.name;
+    user.email = req.body.email;
+    if(!user.authenticate(req.body.password) && req.body.password != '') {
+      user.password = req.body.password;
+    }
+    user.save();
+    res.render('show', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
+  })
+
+})
 
 module.exports = router;
