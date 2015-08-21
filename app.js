@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); //creating a schema in mongo
 var morgan = require('morgan'); //used to see the requests in console
-var dotenv = require('dotenv').load(); // used to load environment variables for api keys
+// var dotenv = require('dotenv').load(); // used to load environment variables for api keys
 var sc = require('node-soundcloud'); // soundcloud api package
 var bcrypt = require('bcrypt'); //encrypting your passwords
 var jwt = require('jsonwebtoken'); //create and verify tokens
@@ -17,8 +17,8 @@ var ejsLayouts = require("express-ejs-layouts"); //to create view partials
 var routes = require('./routes/index');
 var users = require('./routes/users');
 //Database connection
-mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
-//mongoose.connect('mongodb://' + process.env.MONGOLAB_USER + ':' + process.env.MONGOLAB_USER + '@' + process.env.MONGOLAB_DB); //database connection string
+// mongoose.connect('mongodb://localhost/bppd'); //database connection string for dev
+mongoose.connect('mongodb://bendavis:bendavis@ds035593.mongolab.com:35593/bppd'); //database connection string
 var User = require('./models/user');
 
 //=====APP CONFIG=====
@@ -117,6 +117,11 @@ app.post('/signin',function(req, res){
       }
     }
   })
+});
+
+/* NEW users listing. */
+app.get('/new/account', function(req, res, next) {
+  res.render('new', {title: 'Create New Account', token: req.token, });
 });
 
 app.get('/logout', function(req,res){

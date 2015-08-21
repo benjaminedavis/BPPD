@@ -9,17 +9,22 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-//Show user's songs route
-/*router.get('/:id', function(req, res){
-  User.findOne({_id: req.decoded.id}, function(err, user){
-    if(err) return console.log(err);
-
-    res.render('../views/show', {title: user.name, songsList: user.songs, userName: user.name})
-  })
-})*/
+// SHOW user's saved music
+router.get('/:id', function(req, res, next) {
+  User.findOne({_id: req.params.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs});
+    //? should it be ('../views/show',
+    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
+    };
+  });
+});
 
 //Add songs route
-router.put('/addsong', function(req, res, next){
+router.get('/addsong/:songId', function(req, res, next){
   User.findOne({_id: req.decoded.id}, function(err, user){
     var songId = req.body.songId;
     console.log('Adding song:' + songId);
@@ -28,12 +33,18 @@ router.put('/addsong', function(req, res, next){
       console.log(songId + ' has been added to your playlist')
       user.songs.push(songId);
       user.save();
+      res.send({
+        results: true,
+        songs: user.songs});
       next();
     }else{
       //If song is already in songs list, delete
       user.songs.splice(user.songs.indexOf(songId), 1);
       console.log('Song ' + songId + ' has been deleted');
       user.save();
+      res.send({
+        results: false,
+        songs: user.songs});
       next();
     }
   });
@@ -49,14 +60,10 @@ router.get('/delete', function(req, res, next) {
   }
   // res.send('confirm delete page')
 });
-/* NEW users listing. */
-router.get('/new', function(req, res, next) {
-  res.render('new', {title: 'Create New Account', token: req.token, });
-});
-
 
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {
+<<<<<<< HEAD
   // commenting out the token while I'm working on the edit ejs view
   // if(req.token){
     res.render('edit', {title: 'Edit Profile', token: req.token});
@@ -64,6 +71,13 @@ router.get('/edit', function(req, res, next) {
   // else {
   //   res.redirect('/');
   // }
+=======
+  if(req.token){
+    res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
+  } else {
+    res.redirect('/')
+  }
+>>>>>>> master
 });
 
 router.delete('/delete/confirm', function(req, res){
