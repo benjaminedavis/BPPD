@@ -182,19 +182,37 @@ apiRouter.route('/users')
   //TEST SOUNDCLOUD API REQUESTS:
   apiRouter.route('/search')
     .get(function(req,res){
+      var response = {};
       sc.get('/tracks', {q: req.query.searchString}, function(err, results) {
         if( err ) {
           throw err;
         } else {
-          var songIds = [];
+          response.songs = [];
+          //var songs = [];
           for(var i = 0; i < results.length; i += 1) {
-            songIds.push(results[i].id);
+            response.songs.push(results[i].id);
           }
-          res.json(songIds); //return just song titles from url params search:
+
+          if(req.token){
+            console.log('logged in user is searching');
+            response.userIsLoggedIn = true;
+            User.findOne({_id: req.decoded.id}, function(err, user){
+              if(err) return console.log(err);
+              response.likedSongs = user.songs;
+              res.json(response);
+            })  
+          } else {
+            console.log('user searching is NOT logged in');
+            response.userIsLoggedIn = false;
+            res.json(response);
+          }
+           //return just song titles from url params search:
           //console.log(results); //return complete result objects
           //res.json(results);
         }
       })
+
+      
     });
 
 // catch 404 and forward to error handler
