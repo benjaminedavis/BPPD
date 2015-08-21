@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 /* GET ABOUT page. */
 router.get('/about', function(req, res, next) {
-  res.render('about', { title: 'stratus', token: req.token });
+  res.render('about', { title: 'stratus', token: req.decoded });
 });
 
 module.exports = router;
