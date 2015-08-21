@@ -186,11 +186,22 @@ apiRouter.route('/users')
         if( err ) {
           throw err;
         } else {
-          var songIds = [];
-          for(var i = 0; i < results.length; i += 1) {
-            songIds.push(results[i].id);
+
+          var response = {};
+          if(req.token){
+            console.log('logged in user is searching');
+            response.userIsLoggedIn = true;
+
+          } else {
+            console.log('user searching is NOT logged in');
+            response.userIsLoggedIn = false;
           }
-          res.json(songIds); //return just song titles from url params search:
+          response.songs = [];
+          //var songs = [];
+          for(var i = 0; i < results.length; i += 1) {
+            response.songs.push(results[i].id);
+          }
+          res.json(response); //return just song titles from url params search:
           //console.log(results); //return complete result objects
           //res.json(results);
         }
