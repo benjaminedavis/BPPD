@@ -71,6 +71,7 @@ app.use(function(req, res, next){
   }else{
     console.log('Not authorized')
     req.token = false;
+    req.decoded = false;
     next();
     // return res.status(403).send({success: false, message: "Not token provided"});
   }
@@ -129,6 +130,10 @@ app.get('/logout', function(req,res){
   console.log('User Trying to log out:', userParams);
   res.clearCookie('token');
   res.redirect('/');
+});
+
+app.get('/:songId', function(req,res) {
+  res.render('index', { title: 'stratus', token: req.decoded, radioId: req.params.songId })
 });
 
 //=====API ROUTES=====

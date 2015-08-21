@@ -73,11 +73,17 @@ router.post('/new/account', function(req, res){
 });
 
 router.get('/:id', function(req, res, next) {
+  var isLoggedIn;
+  if(req.token) {
+    isLoggedIn = true;
+  } else {
+    isLoggedIn = false;
+  }
   User.findOne({_id: req.params.id}, function(err, user){
     if(err) {
       console.log(err);
     } else {
-    res.render('show.ejs', {title: 'Your Saved Music', token: req.decoded, songs: user.songs, userId: req.decoded.id});
+    res.render('show.ejs', {title: 'Your Saved Music',isLoggedIn: isLoggedIn, token: req.decoded, songs: user.songs, userId: req.decoded.id});
     }
   });
 });
