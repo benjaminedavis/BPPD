@@ -9,14 +9,19 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-//Show user's songs route
-/*router.get('/:id', function(req, res){
-  User.findOne({_id: req.decoded.id}, function(err, user){
-    if(err) return console.log(err);
-
-    res.render('../views/show', {title: user.name, songsList: user.songs, userName: user.name})
-  })
-})*/
+// SHOW user's saved music
+router.get('/:id', function(req, res, next) {
+  User.findOne({_id: req.params.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs});
+    //? should it be ('../views/show',
+    //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
+    };
+  });
+});
 
 //Add songs route
 router.put('/addsong', function(req, res, next){
@@ -54,10 +59,9 @@ router.get('/new', function(req, res, next) {
   res.render('new', {title: 'Create New Account', token: req.token, });
 });
 
-
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {
-  if(req.token){ 
+  if(req.token){
     res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
   } else {
     res.redirect('/')
