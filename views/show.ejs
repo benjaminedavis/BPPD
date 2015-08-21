@@ -1,13 +1,43 @@
     <!-- USER SHOW PAGE- stores/shows saved songs -->
-<% for(var i = 0; i < songs.length; i ++) { %>
-    <div class="row song">
-      <iframe class="col-xs-9" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/<%= songs[i] %>&amp;color=18BC9C&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
-    <div>
-      <button type="button" class="like-rad-sm btn btn-default btn-sm btn-block" data-toggle="tooltip" data-placement="left" title="click to save song"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
-      <button type="button" class="like-rad-sm btn btn-primary btn-sm btn-block" data-toggle="tooltip" data-placement="left" title="click to start radio"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
+
+<% if(songs.length > 0) { %>
+  <% for(var i = (songs.length - 1); i >= 0; i --) { %>
+      <div class="row song">
+        <iframe class="col-xs-9" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/<%= songs[i] %>&amp;color=18BC9C&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+      <div>
+        <button type="button" class="like-rad-sm btn btn-success btn-sm btn-block btn-add" data-song-id="<%= songs[i] %>" data-toggle="tooltip" data-placement="left" title="click to add/remove song"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
+        <button type="button" class="like-rad-sm btn btn-primary btn-sm btn-block" data-toggle="tooltip" data-placement="left" title="click to start radio"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
+      </div>
+      <hr>
     </div>
-    <hr>
-  </div>
+  <% } %>
+
+  <script>
+  $('.btn-add').click(function(event){
+    var self = this;
+    event.preventDefault();
+    if(<%= isLoggedIn %>) {
+      this.songId = $(this).data('song-id');
+      console.log(this.songId);
+      $.ajax({
+        url: '/users/addsong/' + this.songId,
+        success: function(response){
+          if(response.results){
+            console.log(response.results + ' your song has been added');
+          }else{
+            console.log(response.results + ' your song has been removed');
+          }
+          $(self).toggleClass('btn-default').toggleClass('btn-success').blur();
+          $(self).find('span').toggleClass('glyphicon-star-empty').toggleClass('glyphicon-star')
+        }
+      })
+    } else {
+      $("#myModal").modal();
+    }
+  })
+  </script>
+<% } else { %>
+  Add Some Songs.
 <% } %>
 
  <!-- <div class="row song">
