@@ -4,22 +4,23 @@
         <div class="col-xs-12">
           <div class="row">
             <div class="col-md-10 col-md-offset-2">
-              <h1>Create A New Account</h1>
+              <h1>Edit your account</h1>
             </div>
           </div>
         </div>
-        <form data-toggle="validator" role="form" class="form-horizontal" method="post" action="/users/new">
+        <%# This is form tag which tells us where we're sending the form, must match the router.post in the routes %>
+        <form data-toggle="validator" role="form" class="form-horizontal" method="post" action="/users/edit">
           <div class="form-group">
             <label for="inputName" class="control-label col-sm-2">Name</label>
             <div class="form-group col-sm-6">
-              <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
+              <input name="name" type="text" class="form-control" id="inputName" value=<%= userName %> required>
             </div>
           </div>
 
           <div class="form-group">
             <label for="inputEmail" class="control-label col-sm-2">Email</label>
             <div class="form-group  col-sm-6">
-              <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Bruh, that email address is invalid" required>
+              <input name="email" type="email" class="form-control" id="inputEmail" value=<%= userEmail %>  data-error="Bruh, that email address is invalid" required>
             <!-- <div class="help-block with-errors"></div> -->
             </div>
           </div>

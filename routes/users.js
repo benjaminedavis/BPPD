@@ -62,23 +62,37 @@ router.get('/delete', function(req, res, next) {
 });
 
 /* EDIT users info. */
-router.get('/edit', function(req, res, next) {
-<<<<<<< HEAD
-  // commenting out the token while I'm working on the edit ejs view
-  // if(req.token){
-    res.render('edit', {title: 'Edit Profile', token: req.token});
-  // }
-  // else {
-  //   res.redirect('/');
-  // }
-=======
-  if(req.token){
-    res.render('edit.ejs', {title: 'Edit Profile', token: req.token});
-  } else {
-    res.redirect('/')
-  }
->>>>>>> master
+router.get('/:id/edit', function(req, res, next) {
+  User.findOne({_id: req.params.id}, function(err, user){
+     //? should it be req.decoded.id
+    if(err) {
+      console.log(err);
+    } else {
+      //
+    res.render('edit.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userName: user.name, userEmail: user.email});
+    };
+  });
 });
+
+// The "method" and the "action" of the edit ejs form have to match the  route method and the url here
+router.post('/edit', function(req, res){
+  //console.log(req.body);
+  // takes the current users token and finds the Id that matches
+  console.log(req);
+    // User.findOneAndUpdate({_id: req.decoded.id}, req.body, function(err, user){
+    //   if(err) {
+    //     return console.log(err);
+    //   } else {
+    //     res.redirect('/');
+    //   }
+    // });
+});
+
+
+
+
+
+
 
 router.delete('/delete/confirm', function(req, res){
   User.findOneAndRemove({_id: req.body.id}, function(err, user){
@@ -89,7 +103,7 @@ router.delete('/delete/confirm', function(req, res){
   });
 });
 // POST create new user on the database
-router.post('/new', function(req, res){
+router.post('/new/account', function(req, res){
   //create a new instance of the user model, saved onto database
   // uses the user model schema to create new instance
   var user = new User(req.body);
