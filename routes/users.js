@@ -24,7 +24,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 //Add songs route
-router.put('/addsong', function(req, res, next){
+router.get('/addsong/:songId', function(req, res, next){
   User.findOne({_id: req.decoded.id}, function(err, user){
     var songId = req.body.songId;
     console.log('Adding song:' + songId);
@@ -33,12 +33,18 @@ router.put('/addsong', function(req, res, next){
       console.log(songId + ' has been added to your playlist')
       user.songs.push(songId);
       user.save();
+      res.send({
+        results: true,
+        songs: user.songs});
       next();
     }else{
       //If song is already in songs list, delete
       user.songs.splice(user.songs.indexOf(songId), 1);
       console.log('Song ' + songId + ' has been deleted');
       user.save();
+      res.send({
+        results: false,
+        songs: user.songs});
       next();
     }
   });
