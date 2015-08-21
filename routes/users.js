@@ -105,8 +105,13 @@ router.post('/edit', function(req,res) {
   //console.log(req.body);
   User.findOne({_id: req.decoded.id}).select('name email password').exec(function(err, user){
     if(err) return console.log(err);
-    //console.log(user);
-    //console.log(user.authenticate(req.body.password))
+    user.name = req.body.name;
+    user.email = req.body.email;
+    if(!user.authenticate(req.body.password) && req.body.password != '') {
+      user.password = req.body.password;
+    }
+    user.save();
+    res.render('show', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
   })
 
 })
