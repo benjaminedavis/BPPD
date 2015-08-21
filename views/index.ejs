@@ -40,6 +40,7 @@
               success: function(response){
                 var results = response;
                 var randResultNum = Math.round(Math.random() * (response.length -1));
+                //var randomSong = response[randResultNum].id;
                 var randomSong = response[randResultNum];
                 $('#results').slideUp("slow", function(){
                   $('.search-result').remove();
