@@ -68,11 +68,9 @@
                 nextSearchWords.push(currentSound.genre)
                 
                 var tagList = currentSound.tag_list.replace(/['"]+/g, '').split(' ');
-
-                if(tagList.length > 0) {
-                  var tags = tagList.split(' ');
-                  for(var i = 0; i < tags.length; i ++) {
-                    nextSearchWords.push(tags[i]);
+                if(tagList.length > 0) { 
+                  for(var i = 0; i < tagList.length; i ++) {
+                    nextSearchWords.push(tagList[i]);
                   }
                 }
 
