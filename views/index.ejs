@@ -45,12 +45,19 @@
       $(function(){
         var $input = $('#input-search');
         var $searchBtn = $('#btn-search');
-        var $results = $('#results')
+        var $results = $('#results');
+
+        var widgetIframe = null;
+
         $searchBtn.click(function(event){
           event.preventDefault();
+          getASong($input.val());
+        });
+
+        function getASong(searchParams) {
           $.ajax({
               url: 'http://localhost:3000/api/search',
-              data: {searchString: $input.val()},
+              data: {searchString: searchParams},
               contentType: "application/json; charset=utf-8",
               dataType: 'json',
               success: function(response){
@@ -59,12 +66,54 @@
                 var randomSong = response[randResultNum];
                 $('#results').slideUp("slow", function(){
                   $('.soundcloud-embed').remove();
-                  $results.append($('<iframe id="sc-embed-0" class="soundcloud-embed" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
+                  $results.append($('<iframe id="sc-current-song" class="soundcloud-embed" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
                   $('#results').slideDown("slow");
+                  bindSCWidgetEvents('sc-current-song');
                 })
               }
           });
-        });
+        }
+
+        function bindSCWidgetEvents(widgetID) {
+          var nextSearchWords = [];
+          var nextSearchParams = [];
+          widgetIframe = document.getElementById(widgetID),
+          widget       = SC.Widget(widgetIframe);
+
+          widget.bind(SC.Widget.Events.READY, function() {
+            
+            widget.bind(SC.Widget.Events.PLAY, function() {
+              widget.getCurrentSound(function(currentSound) {
+                nextSearchWords.push(currentSound.genre)
+                
+                var tagList = currentSound.tag_list;
+                if(tagList.length > 0) {
+                  var tags = tagList.split(' ');
+                  for(var i = 0; i < tags.length; i ++) {
+                    nextSearchWords.push(tags[i]);
+                  }
+                }
+
+                var nextSearchParam1 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1);
+                nextSearchParams.push(nextSearchParam1);
+                var nextSearchParam2 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1);
+                nextSearchParams.push(nextSearchParam2)
+                //console.log(nextSearchParams.join(' '));
+                //console.log(currentSound)
+
+                //console.log(nextSearchWords);
+                console.log(currentSound.tag_list);
+              });
+            });
+            widget.bind(SC.Widget.Events.FINISH, function(){
+              widget.getCurrentSound(function(currentSound){
+                console.log(currentSound.title + ' just finished.');
+                getASong(nextSearchWords.join(' '));
+              });
+            })
+          });
+        }
+
       })
     </script>
 <!-- END SEARCH SCRIPT -->
