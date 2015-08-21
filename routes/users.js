@@ -60,10 +60,6 @@ router.get('/delete', function(req, res, next) {
   }
   // res.send('confirm delete page')
 });
-/* NEW users listing. */
-router.get('/new', function(req, res, next) {
-  res.render('new', {title: 'Create New Account', token: req.token, });
-});
 
 /* EDIT users info. */
 router.get('/edit', function(req, res, next) {

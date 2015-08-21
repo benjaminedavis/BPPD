@@ -119,6 +119,11 @@ app.post('/signin',function(req, res){
   })
 });
 
+/* NEW users listing. */
+app.get('/new/account', function(req, res, next) {
+  res.render('new', {title: 'Create New Account', token: req.token, });
+});
+
 app.get('/logout', function(req,res){
   var userParams = req.decoded.id;
   console.log('User Trying to log out:', userParams);
