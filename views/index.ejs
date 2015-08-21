@@ -67,7 +67,8 @@
               widget.getCurrentSound(function(currentSound) {
                 nextSearchWords.push(currentSound.genre)
                 
-                var tagList = currentSound.tag_list;
+                var tagList = currentSound.tag_list.replace(/['"]+/g, '').split(' ');
+
                 if(tagList.length > 0) {
                   var tags = tagList.split(' ');
                   for(var i = 0; i < tags.length; i ++) {
@@ -83,13 +84,13 @@
                 //console.log(currentSound)
 
                 //console.log(nextSearchWords);
-                console.log(currentSound.tag_list);
+                
               });
             });
             widget.bind(SC.Widget.Events.FINISH, function(){
               widget.getCurrentSound(function(currentSound){
                 console.log(currentSound.title + ' just finished.');
-                getASong(nextSearchWords.join(' '));
+                //getASong(nextSearchWords.join(' '));
               });
             })
           });
