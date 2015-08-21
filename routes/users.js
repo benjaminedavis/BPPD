@@ -57,7 +57,7 @@ router.get('/edit', function(req, res, next) {
       console.log(err);
     } else {
       //
-    res.render('edit.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userName: user.name, userEmail: user.email});
+    res.render('edit.ejs', {title: 'Your Saved Music', token: req.decoded, songs: user.songs, userName: user.name, userEmail: user.email});
     };
   });
 });
@@ -94,7 +94,7 @@ router.get('/:id', function(req, res, next) {
     if(err) {
       console.log(err);
     } else {
-    res.render('show.ejs', {title: 'Your Saved Music', token: req.token, songs: user.songs, userId: req.decoded.id});
+    res.render('show.ejs', {title: 'Your Saved Music', token: req.decoded, songs: user.songs, userId: req.decoded.id});
     //? should it be ('../views/show',
     //? should it be       {title: user.name, songsList: user.songs, userName: user.name});
     }
