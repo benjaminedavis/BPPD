@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var User = require('../models/user');
 
@@ -26,8 +27,8 @@ router.get('/:id', function(req, res, next) {
 //Add songs route
 router.get('/addsong/:songId', function(req, res, next){
   User.findOne({_id: req.decoded.id}, function(err, user){
-    var songId = req.body.songId;
-    console.log('Adding song:' + songId);
+    var songId = req.params.songId;
+    console.log(user.songs);
     //To check if song is already added
     if(user.songs.filter(function(value){ return value == songId}).length == 0){
       console.log(songId + ' has been added to your playlist')
@@ -36,7 +37,7 @@ router.get('/addsong/:songId', function(req, res, next){
       res.send({
         results: true,
         songs: user.songs});
-      next();
+
     }else{
       //If song is already in songs list, delete
       user.songs.splice(user.songs.indexOf(songId), 1);
@@ -45,7 +46,7 @@ router.get('/addsong/:songId', function(req, res, next){
       res.send({
         results: false,
         songs: user.songs});
-      next();
+
     }
   });
 });

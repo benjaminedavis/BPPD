@@ -24,25 +24,6 @@
 <!-- SEARCH SCRIPT -->
     <script>
       $(function(){
-        var $addBtn = $('#btn-add');
-        var $btnAdd = $('#btn-add')
-        var $songId = 1234; // will grab from below sound cloud code
-        $addBtn.click(function(event){
-          $.ajax({
-            url: 'http://localhost:3000/users/addsong/'+ $songId,
-            data: {songId: songId},
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(response){
-              if(response.results){
-                //call back function should be refactored
-                $btnAdd.HTML('<span id="favorite" class="glyphicon glyphicon-star" aria-hidden="true"></span>');
-              }
-            }
-          })
-        });
-      });
-      $(function(){
         var $input = $('#input-search');
         var $searchBtn = $('#btn-search');
         var $results = $('#results');
@@ -114,6 +95,25 @@
           });
         }
 
+        var $addBtn = $('#btn-add');
+        var $songId = 1234; // will grab from below sound cloud code
+        $addBtn.click(function(event){
+          event.preventDefault();
+          $.ajax({
+            url: '/users/addsong/' + $songId,
+            // data: {songId: $songId},
+            // contentType: "application/json; charset=utf-8",
+            // dataType: 'json',
+            success: function(response){
+              if(response.results){
+                //call back function should be refactored
+                console.log(response.results + ' your song has been added');
+              }else{
+                console.log(response.results + ' your song has been removed');
+              }
+            }
+          })
+        });
       })
     </script>
 <!-- END SEARCH SCRIPT -->
