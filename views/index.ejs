@@ -28,42 +28,63 @@
 
         $searchBtn.click(function(event){
           event.preventDefault();
-          getASong($input.val());
+          getASong('search', $input.val());
         });
 
-        function getASong(searchParams) {
-          $.ajax({
+        function getASong(type, searchParams) {
+          var searchMessage;
+          if(type == 'search') {
+            searchMessage = {searchString: searchParams, searchType: 'search'};
+
+            $.ajax({
               url: 'http://localhost:3000/api/search',
               contentType: "application/json; charset=utf-8",
               dataType: 'json',
-              data: {searchString: searchParams},
+              data: searchMessage,
               success: function(response){
-                var results = response.songs;
-                var randResultNum = Math.round(Math.random() * (results.length -1));
-                //var randomSong = response[randResultNum].id;
-                var randomSong = results[randResultNum];
-                $('#results').slideUp("slow", function(){
-                  $('.search-result').remove();
-                  $results.append($('<div class="search-result text-center"><iframe id="sc-current-song" class="soundcloud-embed" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
-                  console.log('this users favorites:', response.likedSongs);
-                  console.log(randomSong)
-                  console.log('song to match:', response.likedSongs.indexOf(randomSong));
-                  if(response.likedSongs.indexOf(randomSong) > -1) {
-                    initialBtnClass = 'btn-success'
-                    initialIconClass = 'glyphicon-star';
-                  } else {
-                    initialBtnClass = 'btn-default'
-                    initialIconClass = 'glyphicon-star-empty'
-                  }
-                  $('.search-result').append($('<button type="button" class="like-rad-lg btn btn-lg btn-add ' + initialBtnClass + '" data-song-id="' + randomSong + '"><span class="glyphicon  ' + initialIconClass + '" aria-hidden="true"></span>  save to favorites</button>'));
-                  $('.search-result').append($('<button type="button" class="like-rad-lg btn btn-lg btn-next btn-primary" data-song-id="' + randomSong + '"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>  Next Song</button>'));
-                  $('.search-result').append($())
-                  $('#results').slideDown("slow");
-                  bindSCWidgetEvents('sc-current-song');
-                  bindLikeBtn(response);
-                })
+                populateSong(response);
               }
-          });
+            });
+          } else if(type == 'single') {
+            searchMessage = {searchString: <%= radioId %>, searchType: 'single'};
+            console.log('TRYING TO GET A SINGLE SONG: ', <%= radioId %>);
+            populateSong({songs: [<%= radioId %>]});
+          }
+          
+        }
+
+        function populateSong(response) {
+          
+          var results = response.songs;
+          
+          var randResultNum = Math.round(Math.random() * (results.length -1));
+          var randomSong = results[randResultNum];
+          $('#results').slideUp("slow", function(){
+            $('.search-result').remove();
+            $results.append($('<div class="search-result text-center"><iframe id="sc-current-song" class="soundcloud-embed" width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + randomSong + '&amp;color=18BC9C&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>'));
+            console.log('this users favorites:', response.likedSongs);
+            //console.log(randomSong)
+            //console.log('song to match:', response.likedSongs.indexOf(randomSong));
+            if(response.token){
+              if(response.likedSongs.indexOf(randomSong) > -1) {
+                initialBtnClass = 'btn-success'
+                initialIconClass = 'glyphicon-star';
+              } else {
+                initialBtnClass = 'btn-default'
+                initialIconClass = 'glyphicon-star-empty'
+              }
+            } else {
+                initialBtnClass = 'btn-default'
+                initialIconClass = 'glyphicon-star-empty'
+              }
+            
+            $('.search-result').append($('<button type="button" class="like-rad-lg btn btn-lg btn-add ' + initialBtnClass + '" data-song-id="' + randomSong + '"><span class="glyphicon  ' + initialIconClass + '" aria-hidden="true"></span>  save to favorites</button>'));
+            $('.search-result').append($('<button type="button" class="like-rad-lg btn btn-lg btn-next btn-primary" data-song-id="' + randomSong + '"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>  Next Song</button>'));
+            $('.search-result').append($())
+            $('#results').slideDown("slow");
+            bindSCWidgetEvents('sc-current-song');
+            bindLikeBtn(response);
+          })
         }
 
         function bindSCWidgetEvents(widgetID) {
@@ -94,12 +115,12 @@
               });
               $('.btn-next').click(function(event){
                 event.preventDefault();
-                getASong(nextSearchParams.join(' '));
+                getASong('search', nextSearchParams.join(' '));
               })
             });
             widget.bind(SC.Widget.Events.FINISH, function(){
               widget.getCurrentSound(function(currentSound){
-                getASong(nextSearchParams.join(' '));
+                getASong('search', nextSearchParams.join(' '));
               });
             })
           });
@@ -128,6 +149,10 @@
               $("#myModal").modal();
             }
           });
+        };
+
+        if(<%= radioId %>) {
+          populateSong({songs: [<%= radioId %>]})
         }
       })
     </script>

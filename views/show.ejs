@@ -6,7 +6,7 @@
         <iframe class="col-xs-9" width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/<%= songs[i] %>&amp;color=18BC9C&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
       <div>
         <button type="button" class="like-rad-sm btn btn-success btn-sm btn-block btn-add" data-song-id="<%= songs[i] %>" data-toggle="tooltip" data-placement="left" title="click to add/remove song"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
-        <button type="button" class="like-rad-sm btn btn-primary btn-sm btn-block" data-toggle="tooltip" data-placement="left" title="click to start radio"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
+        <button type="button" class="like-rad-sm btn btn-primary btn-sm btn-block btn-start-radio" data-song-id="<%= songs[i] %>" data-toggle="tooltip" data-placement="left" title="click to start radio"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
       </div>
       <hr>
     </div>
@@ -34,6 +34,11 @@
     } else {
       $("#myModal").modal();
     }
+  });
+
+  $('.btn-start-radio').click(function(event){
+    event.preventDefault();
+    window.location.href = "/" + $(this).data('song-id');
   })
   </script>
 <% } else { %>
