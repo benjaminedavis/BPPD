@@ -56,18 +56,14 @@
           var nextSearchWords = [];
           var nextSearchParams = [];
           widgetIframe = document.getElementById(widgetID),
-          widget       = SC.Widget(widgetIframe);
-
+          widget = SC.Widget(widgetIframe);
           widget.bind(SC.Widget.Events.READY, function() {
-            
             widget.bind(SC.Widget.Events.PLAY, function() {
               widget.getCurrentSound(function(currentSound) {
-
                 var title = currentSound.title.replace(/['"]+/g, '').split(' ');
                 for(var i = 0; i < title.length; i ++) {
                   nextSearchWords.push(title[i]);
                 }
-                
                 if(currentSound.genre) {
                   nextSearchWords.push(currentSound.genre);
                 }
@@ -77,7 +73,6 @@
                     nextSearchWords.push(tagList[i]);
                   }
                 }
-                
                 console.log(nextSearchWords);
                 console.log('contains the phrase :source: ' + currentSound.tag_list.indexOf(':source'))
                 var nextSearchParam1 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1).join();
@@ -85,23 +80,19 @@
                 var nextSearchParam2 = nextSearchWords.splice(Math.round(Math.random() * (nextSearchWords.length - 1)), 1).join();
                 nextSearchParams.push(nextSearchParam2)
                 console.log(nextSearchParams);
-                //console.log(nextSearchWords);
               });
             });
             widget.bind(SC.Widget.Events.FINISH, function(){
               widget.getCurrentSound(function(currentSound){
-                //console.log(currentSound.title + ' just finished.');
-                //console.log(nextSearchWords)
                 getASong(nextSearchParams.join(' '));
               });
             })
           });
         }
 
-
         function bindLikeBtn() {
           var $addBtn = $('.btn-add');
-          var $songId = $addBtn.data('song-id'); // will grab from below sound cloud code
+          var $songId = $addBtn.data('song-id');
           $addBtn.click(function(event){
             event.preventDefault();
             console.log('song to add:', $songId);
@@ -119,7 +110,6 @@
             })
           });
         }
-
       })
     </script>
 <!-- END SEARCH SCRIPT -->
