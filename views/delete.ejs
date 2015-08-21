@@ -5,7 +5,7 @@
     <h1 id="delete-user-confirm" >Are you sure you want to permanently delete your account? <br><br> By confirming you will lose all of your saved music.</h1>
     <br><br>
     <div class="text-center">
-      <button type="button" class="btn btn-success btn-lrg">Keep Me Active</button>
+      <button id="cancel-delete" type="button" class="btn btn-success btn-lrg">Keep Me Active</button>
       <button id="confirm-delete" type="button" class="btn btn-danger btn-lrg">Confirm Delete</button>
     </div>
     </div>
@@ -20,6 +20,26 @@
           $.ajax({
             type: 'DELETE',
             url: '/users/delete/confirm',
+            dataType: 'json',
+            data: {
+              id: '<%= userId %>'
+            },
+            success: function(){
+              console.log('boom');
+            }
+          })
+        })
+      })
+    </script>
+
+    <script>
+      $(function(){
+        var $cancelBtn = $('#cancel-delete');
+        $cancelBtn.click(function(event){
+          event.preventDefault();
+          $.ajax({
+            type: 'GET',
+            url: '/users/:id',
             dataType: 'json',
             data: {
               id: '<%= userId %>'
