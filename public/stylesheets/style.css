@@ -1,7 +1,10 @@
 body {
   padding-top: 65px;
   padding-bottom: 65px;
-  /*to offset the fixed footer and header- defaulted to zero */
+}
+
+html { 
+  
 }
 
 /* GLOBAL NAVIGATION */
@@ -30,12 +33,21 @@ body {
 .like-rad-lg {
     font-size: 24px;
     margin: 10px 10px 10px 10px;
-    height:55px;
+    height:70px;
     width:300px;
 }
 
 .row.song{
   margin-top:15px
+}
+
+#index-title {
+      font-size: 80px;
+    font-weight: bold;
+}
+
+#index-search {
+  margin-bottom:20px;
 }
 
 /* DELETE CONFIRMATION */
@@ -47,7 +59,11 @@ body {
 /* FOOTER */
 #footer-text {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+  
 }
