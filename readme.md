@@ -1,4 +1,4 @@
-**cloudcover**
+**Stratus**
 
 This application is a personal music playlist creation device that utilizes the soundcloud.com api.
 
